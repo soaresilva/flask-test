@@ -2,15 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registration Page</title>
+    <title>{{event}} Registration Page</title>
     <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css'>
 </head>
 <body>
-    <div style="padding:1rem">
-        <div class="container">
-            {% include 'includes/_messages.html' %}
-            {% block body %}{% endblock %}
-        </div>
+    <div class="container"style="padding:1rem" >
+        {% include 'includes/_messages.html' %}
+        {% block body %}{% endblock %}
     </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
