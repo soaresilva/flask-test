@@ -1,2 +1,2 @@
 # flask-test
-Using Flask for the first time.
+Using Flask to create an event registration form.
