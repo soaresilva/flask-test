@@ -1,40 +1,45 @@
-from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
+from flask import Flask, render_template, flash, request
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, validators
 
 app = Flask(__name__)
 
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+
 # Config MySQL
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_PORT'] = '3306'
+app.config['MYSQL_PORT'] = 3306
 app.config['MYSQL_UNIX_SOCKET'] = '/Applications/mampstack-7.3.13-0/mysql/tmp/mysql.sock'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'rootroot'
+app.config['MYSQL_PASSWORD'] = 'rootrootroot'
 app.config['MYSQL_DB'] = 'flask_event_reg'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
 
 
-@app.route("/")
-def index():
-    return render_template("welcome.html")
-
-
 # Register form class
 class RegisterForm(Form):
-    name = StringField('Name', [validators.Length(min=1, max=50)])
-    email = StringField('Email', [validators.Length(min=6, max=50)])
-    event = StringField('Event', [validators.Length(min=4, max=25)])
+    name = StringField('Name', [validators.InputRequired(), validators.Length(min=1, max=50)])
+    email = StringField('Email', [validators.InputRequired(), validators.Length(min=6, max=50), validators.Email()])
+    event = StringField('Event')
 
 
 # Register
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def register():
+    event = request.args.get('event', type=str)
+    if event == 'a':
+        event = 'Summer'
+    elif event == 'b':
+        event = 'Winter'
+    else:
+        return render_template('404.html')
+
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
         name = form.name.data
         email = form.email.data
-        event = form.event.data
 
         # Cursor
         cur = mysql.connection.cursor()
@@ -47,11 +52,10 @@ def register():
         # Close connection
         cur.close()
 
-        flash('Thanks for your registration.', 'success')
+        flash('Registration successful. Thank you.', 'success')
 
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form, event=event)
 
 
 if __name__ == '__main__':
-    app.secret_key('secret123')
     app.run(debug=True)
