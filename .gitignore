@@ -1,4 +1,6 @@
 /bin
+lib/python3.7/site-packages
+.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -17,7 +19,6 @@ downloads/
 eggs/
 .eggs/
 lib/
-lib/python3.7/site-packages
 lib64/
 parts/
 sdist/
