@@ -1,18 +1,45 @@
-$('#submit-form-button').click(function(event){
-    // Prevent redirection with AJAX for contact form
-    var form = $('#event-form');
-    var form_id = 'event-form';
-    var url = form.prop('action');
-    var type = form.prop('method');
-    var formData = getSubmitFormData(form_id);
+$(document).ready(function () {
+	let csrf_token = $("csrf_token").val();
 
-    // submit form via AJAX
-    send_form(form, form_id, url, type, modular_ajax, formData);
+	$.ajaxSetup({
+		beforeSend: function (xhr, settings) {
+			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+				xhr.setRequestHeader("X-CSRFToken", csrf_token);
+			}
+		}
+	});
+
+	$('#registrationForm').on('submit', function(e) {
+		e.preventDefault();
+
+		$("#alert", "#name-error", "#email-error").hide();
+		$("#alert").removeClass("alert-success").removeClass("alert-danger");
+		$("#name", '#email').removeClass("is-invalid");
+
+		$.post({
+			data : $(this).serialize(),
+			type : 'POST',
+			url : '/'
+		})
+		.done(function (data) {
+			$("#alert").html(data.message).addClass("alert-success").show();
+		})
+		.fail(function (error) {
+            let message = $.parseJSON(error.responseText).message;
+            if(error.status == 400) {
+                for (key in message) {
+                    let errorLabel = $("#" + key + "-error");
+                    $("#"+key).addClass("is-invalid");
+                    if (errorLabel !== null) {
+                        errorLabel.html(message[key]).show();
+                    } else {
+                        finalMessage += key + ": " + message[key];
+                    }
+                }
+            } else if (error.status == 500) {
+                $("#alert").html(message).addClass("alert-danger").show();
+                }
+		});
+		return false;
+	});
 });
-
-function getSubmitFormData(form) {
-    // creates a FormData object and adds chips text
-    var formData = new FormData(document.getElementById(form));
-//    for (var [key, value] of formData.entries()) { console.log('formData', key, value);}
-    return formData
-}

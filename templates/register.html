@@ -1,39 +1,23 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h2>Registration to {{ event }} Party</h2>
-    <!-- {% from "includes/_formhelpers.html" import render_field %} -->
-    <form method="POST" action="" id="event-form">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <h2>Registration to {{ event_label }} Party</h2>
+    <form method="POST" action="" id="registrationForm">
+        <div id="alert" class="alert" role="alert" style="display: none;"></div>
         <div class="form-group">
-            {{ form.name.label(class="form-control-label") }}
-            {% if form.name.errors %}
-                {{ form.name(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                    {% for error in form.name.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% else %}
-                {{ form.name(class="form-control form-control-lg") }}
-            {% endif %}
+            <label for="name" class="form-control-label">Name</label>
+            <input type="text" id="name" name="name" class="form-control form-control-lg" required="required"/>
+            <div id="name-error" class="invalid-feedback" style="display: none;"></div>
         </div>
         <div class="form-group">
-            {{ form.email.label(class="form-control-label") }}
-            {% if form.email.errors %}
-                {{ form.email(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                    {% for error in form.email.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% else %}
-                {{ form.email(class="form-control form-control-lg") }}
-            {% endif %}
+            <label for="email" class="form-control-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control form-control-lg" required="required"/>
+            <div id="email-error" class="invalid-feedback" style="display: none;"></div>
         </div>
-         <div class="form-group">
-            {{ form.event.label(class="form-control-label") }}: {{event}} Party
+        <div class="form-group">
+            <input type="hidden" name="event" value="{{ event }}"/>
+            <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}"/>
+            <input type="submit" class="btn btn-primary" value="Submit" />
         </div>
-        <p><input type="submit" id="submit-form-button" class="btn btn-primary" value="Submit"></p>
     </form>
 {% endblock %}
