@@ -1,21 +1,12 @@
 from flask import Flask, render_template, flash, request
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, validators
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
-
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-
-
-# Config MySQL
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_PORT'] = 3306
-app.config['MYSQL_UNIX_SOCKET'] = '/Applications/mampstack-7.3.13-0/mysql/tmp/mysql.sock'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'rootrootroot'
-app.config['MYSQL_DB'] = 'flask_event_reg'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+app.config.from_object('config')
 mysql = MySQL(app)
+csrf = CSRFProtect(app)
 
 
 # Register form class

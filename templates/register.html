@@ -2,8 +2,9 @@
 
 {% block body %}
     <h2>Registration to {{ event }} Party</h2>
-    {% from "includes/_formhelpers.html" import render_field %}
-    <form method="POST" action="">
+    <!-- {% from "includes/_formhelpers.html" import render_field %} -->
+    <form method="POST" action="" id="event-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <div class="form-group">
             {{ form.name.label(class="form-control-label") }}
             {% if form.name.errors %}
@@ -33,6 +34,6 @@
          <div class="form-group">
             {{ form.event.label(class="form-control-label") }}: {{event}} Party
         </div>
-        <p><input type="submit" class="btn btn-primary" value="Submit"></p>
+        <p><input type="submit" id="submit-form-button" class="btn btn-primary" value="Submit"></p>
     </form>
 {% endblock %}
