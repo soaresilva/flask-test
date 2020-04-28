@@ -1,6 +1,5 @@
 appdirs==1.4.3
 attrs==19.3.0
-black==19.10b0
 certifi==2020.4.5.1
 cffi==1.14.0
 chardet==3.0.4
@@ -14,7 +13,7 @@ idna==2.9
 itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
-mysqlclient==1.4.6
+mysql-connector==2.2.9
 pathspec==0.8.0
 pycparser==2.20
 PyMySQL==0.9.3

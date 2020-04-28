@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request, make_response, jsonify
+from flask import Flask, render_template, request, make_response, jsonify
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, validators, ValidationError
 from flask_wtf.csrf import CSRFProtect
@@ -46,6 +46,7 @@ def submit():
             event = form.event.data
             # Cursor
             cur = mysql.connection.cursor()
+            cur.execute('''USE event_registration''')
             cur.execute("INSERT INTO users(name, email, event) VALUES(%s, %s, %s)", (name, email, options[event]))
             # Send to DB
             mysql.connection.commit()

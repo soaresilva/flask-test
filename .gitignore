@@ -1,6 +1,7 @@
 /bin
 /lib/python3.7/site-packages
 .idea/
+.DS_Store
 
 
 # Byte-compiled / optimized / DLL files
@@ -110,7 +111,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/
