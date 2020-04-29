@@ -2,6 +2,7 @@ import mysql.connector
 import config
 
 
+# creates a new database event_registration
 def create_db():
     try:
         connection = mysql.connector.connect(
@@ -13,6 +14,7 @@ def create_db():
         raise error
 
 
+# connects to newly created db to create a table 'users' with 5 columns: id, name, email, event, and registration date
 def create_table():
     try:
         connection = mysql.connector.connect(
@@ -24,7 +26,9 @@ def create_table():
 
         cursor = connection.cursor()
         cursor.execute(
-            """CREATE TABLE users (id int unsigned not null auto_increment, name varchar(50) not null, event varchar(50) not null, email varchar(50) not null, registration_date timestamp default current_timestamp, primary key (id)); """
+            """CREATE TABLE users (id int unsigned not null auto_increment, name varchar(50) not null, event varchar(
+            50) not null, email varchar(50) not null, registration_date timestamp default current_timestamp, 
+            primary key (id)); """
         )
     except mysql.connector.Error as error:
         raise error

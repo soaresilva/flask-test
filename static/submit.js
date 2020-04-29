@@ -1,4 +1,5 @@
 $(document).ready(function () {
+// include CSRF token header
 	let csrf_token = $("csrf_token").val();
 
 	$.ajaxSetup({
@@ -9,13 +10,18 @@ $(document).ready(function () {
 		}
 	});
 
+// grabs form ID to do the call
 	$('#registrationForm').on('submit', function(e) {
 		e.preventDefault();
 
-		$("#alert", "#name-error", "#email-error").hide();
+// hiding existent bootstrap classes/success/error divs when clicking submit button
+		$("#alert, #name-error, #email-error").hide();
+		$("#alert, #name-error, #email-error").html("");
 		$("#alert").removeClass("alert-success").removeClass("alert-danger");
-		$("#name", '#email').removeClass("is-invalid");
+		$("#name, #email").removeClass("is-invalid");
 
+// grabbing form data and sending it via post
+// showing useful response messages to the user via bootstrap classes
 		$.post({
 			data : $(this).serialize(),
 			type : 'POST',

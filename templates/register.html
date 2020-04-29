@@ -15,6 +15,7 @@
             <div id="email-error" class="invalid-feedback" style="display: none;"></div>
         </div>
         <div class="form-group">
+            <!-- CSRF token and pre-filled event value are hidden from the user -->
             <input type="hidden" name="event" value="{{ event }}"/>
             <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}"/>
             <input type="submit" class="btn btn-primary" value="Submit" />

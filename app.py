@@ -8,24 +8,27 @@ app.config.from_object('config')
 mysql = MySQL(app)
 csrf = CSRFProtect(app)
 
+# Dictionary with the two possible get parameters
 options = {
     'a': 'Summer',
     'b': 'Winter'
 }
 
 
-# Register form class
+# Register form class, providing WTFForm validators
 class RegisterForm(Form):
     name = StringField('Name', [validators.InputRequired(), validators.Length(min=2, max=50)])
     email = StringField('Email', [validators.InputRequired(), validators.Length(min=6, max=50), validators.Email()])
     event = StringField('Event', [validators.InputRequired()])
 
+# Added validation for events - if event is not in the options dictionary it does not get sent to the db
     def validate_event(form, field):
         if field.data not in options:
             raise ValidationError("Invalid event")
 
 
-# Register
+# GET route, grabs event information from GET parameter and displays it to the user
+# Renders the 404 page if event is not in the dictionary (a/b)
 @app.route('/', methods=['GET'])
 def register():
     event = request.args.get('event', type=str)
@@ -36,6 +39,8 @@ def register():
         return render_template('404.html')
 
 
+# POST route, handles form submission and validation, sends data to the DB if successful
+# Sends success/error message to be handled by JS and display relevant message to the user
 @app.route('/', methods=['POST'])
 def submit():
     try:
