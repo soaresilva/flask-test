@@ -11,7 +11,7 @@ Flask-MySQLdb==0.2.0
 Flask-WTF==0.14.3
 idna==2.9
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 mysql-connector==2.2.9
 pathspec==0.8.0
